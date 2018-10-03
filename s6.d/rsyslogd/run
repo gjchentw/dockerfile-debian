@@ -1,0 +1,7 @@
+#!/bin/bash
+[[ -f ./setup ]] && source ./setup
+SYSLOG_OPTION=${SYSLOG_OPTION:-"/proc/self/fd/2"}
+pushd /root > /dev/null
+    echo \*.\* ${SYSLOG_OPTION} > /etc/rsyslog.d/default.conf
+    /usr/sbin/rsyslogd -n
+popd

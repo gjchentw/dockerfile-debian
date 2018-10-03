@@ -1,0 +1,6 @@
+#!/bin/bash
+[[ -f ./setup ]] && source ./setup
+
+pushd /root > /dev/null
+    /usr/sbin/cron -f
+popd
