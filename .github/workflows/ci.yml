@@ -1,0 +1,24 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: "docker build . --file Dockerfile --tag ghcr.io/${GITHUB_REPOSITORY}:$(cat Dockerfile | grep FROM | awk -F: '{print $(NF)}' | awk -F- '{print $1}')"
+    - name: Login to ghcr.io
+      env:
+        CR_PAT: ${{ secrets.ghcr }}
+      run: "echo ${CR_PAT} | docker login ghcr.io -u ${GITHUB_ACTOR} --password-stdin"
+    - name: Push to ghcr.io
+      run: "docker push ghcr.io/${GITHUB_REPOSITORY}:$(cat Dockerfile | grep FROM | awk -F: '{print $(NF)}' | awk -F- '{print $1}')"
