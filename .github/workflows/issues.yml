@@ -13,14 +13,14 @@ jobs:
     steps:
     - uses: actions/github-script@v3
       with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
+        github-token: ${{secrets.CR_PAT}}
         script: |
           const i = await github.issues.get({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
           })
-          console.log(context.i)
+          console.log(i)
           github.issues.update({
             issue_number: context.issue.number,
             owner: context.repo.owner,
