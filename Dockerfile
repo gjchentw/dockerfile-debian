@@ -13,7 +13,7 @@ RUN	printf "deb http://httpredir.debian.org/debian buster-backports main non-fre
 	  bash bash-completion sudo openssl ca-certificates apt-transport-https rsyslog cron gnupg dirmngr curl wget jq git net-tools dnsutils procps && \
 	apt-get -y autoremove && apt-get -y autoclean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-	wget -O- $(curl 'https://api.github.com/repos/just-containers/s6-overlay/releases/latest' | jq -r '.assets |map(select(.name | contains("amd64")))|map(select(.name | contains("sig") | not)) | .[].browser_download_url') | tar xz
+	wget -O- $(curl 'https://api.github.com/repos/just-containers/s6-overlay/releases/latest' | jq -r '.assets |map(select(.name | contains("amd64")))|map(select(.name | contains("sig") | not)) | .[].browser_download_url' | grep 'tar\.gz' | head -n 1) | tar xz
 
 COPY	s6.d /etc/s6.d
 COPY	entrypoint.sh /
