@@ -22,7 +22,7 @@ jobs:
       run: "docker push ${{ secrets.CR_REPO }}:$(cat Dockerfile | grep FROM | awk -F: '{print $(NF)}' | awk -F- '{print $1}')"
     - uses: actions/github-script@v3
       with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
+        github-token: ${{secrets.CR_PAT}}
         script: |
           const i = await github.issues.create({
             owner: context.repo.owner,
@@ -31,6 +31,7 @@ jobs:
             body: 'cheers',
             labels: ['actions']
           })
+          console.log(i)
           github.issues.update({
             issue_number: i.number,
             owner: context.repo.owner,
