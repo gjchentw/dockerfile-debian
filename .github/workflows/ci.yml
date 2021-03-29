@@ -24,7 +24,7 @@ jobs:
       run: "docker push ${{ secrets.CR_REPO }}:$(cat Dockerfile | grep FROM | awk -F: '{print $(NF)}' | awk -F- '{print $1}')"
     - uses: actions/github-script@v3
       with:
-        github-token: ${{secrets.CR_PAT}}
+        github-token: ${secrets.CR_PAT}
         script: |
           const i = await github.issues.create({
             owner: context.repo.owner,
