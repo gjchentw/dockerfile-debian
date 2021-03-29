@@ -20,7 +20,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
           })
-          console.log(i)
+          console.log(i.labels[0])
           github.issues.update({
             issue_number: context.issue.number,
             owner: context.repo.owner,
