@@ -15,7 +15,12 @@ jobs:
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
-          console.log(context.issue)
+          const i = github.issues.get(
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          )
+          console.log(context.i)
           github.issues.update({
             issue_number: context.issue.number,
             owner: context.repo.owner,
