@@ -1,41 +1,28 @@
-name: Docker Image CI
+name: Close Issues from Actions
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  schedule:
-    - cron: 8 0 * * 6
+  issues:
+    types: [opened]
 
 jobs:
 
-  build:
+  update_issue:
+
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: "docker build . --file Dockerfile --tag ${{ secrets.CR_REPO }}:$(cat Dockerfile | grep FROM | awk -F: '{print $(NF)}' | awk -F- '{print $1}')"
-    - name: Login to ghcr.io
-      run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${GITHUB_ACTOR} --password-stdin
-    - name: Push to ghcr.io
-      run: "docker push ${{ secrets.CR_REPO }}:$(cat Dockerfile | grep FROM | awk -F: '{print $(NF)}' | awk -F- '{print $1}')"
-  done:
-    runs-on: ubuntu-latest
+
     steps:
     - uses: actions/github-script@v3
       with:
+        github-token: ${{secrets.CR_PAT}}
         script: |
-          const i = await github.issues.create({
+          const i = await github.issues.get({
+            issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            title: 'Actions Need Activities'
-            body: 'cheers',
-            labels: ['actions']
           })
-          console.log(i)
+          console.log(i.data.labels)
           github.issues.update({
-            issue_number: i.number,
+            issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
             state: 'closed'
