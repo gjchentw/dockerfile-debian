@@ -11,9 +11,7 @@ on:
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
@@ -22,6 +20,9 @@ jobs:
       run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${GITHUB_ACTOR} --password-stdin
     - name: Push to ghcr.io
       run: "docker push ${{ secrets.CR_REPO }}:$(cat Dockerfile | grep FROM | awk -F: '{print $(NF)}' | awk -F- '{print $1}')"
+  done:
+    runs-on: ubuntu-latest
+    steps:
     - uses: actions/github-script@v3
       with:
         github-token: ${{ secrets.CR_PAT }}
