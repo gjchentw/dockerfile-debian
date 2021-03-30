@@ -1,8 +1,12 @@
-name: Close Issues from Actions
+name: Docker Image CI
 
 on:
-  issues:
-    types: [opened]
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron: 8 0 * * 6
 
 jobs:
 
