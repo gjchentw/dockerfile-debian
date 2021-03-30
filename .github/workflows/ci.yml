@@ -25,7 +25,6 @@ jobs:
     steps:
     - uses: actions/github-script@v3
       with:
-        github-token: ${{ secrets.CR_PAT }}
         script: |
           const i = await github.issues.create({
             owner: context.repo.owner,
