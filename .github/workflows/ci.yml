@@ -28,7 +28,7 @@ jobs:
           })
           console.log(i)
           github.issues.update({
-            issue_number: context.issue.number,
+            issue_number: i.data.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
             state: 'closed'
