@@ -22,7 +22,7 @@ jobs:
           const i = await github.issues.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            title: 'Actions Need Activities'
+            title: 'Actions Need Activities',
             body: 'cheers',
             labels: ['actions']
           })
