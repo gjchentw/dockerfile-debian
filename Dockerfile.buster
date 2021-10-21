@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:buster-slim
 
 ENV	DEBIAN_FRONTEND=noninteractive \
 	TZ="Asia/Taipei" \
@@ -7,7 +7,7 @@ ENV	DEBIAN_FRONTEND=noninteractive \
 # SYSLOG_OPTION="action(type=\"omfwd\" target=\"172.17.0.1\" port=\"514\" protocol=\"tcp\")"
 
 WORKDIR /
-RUN	printf "deb http://httpredir.debian.org/debian bullseye-backports main non-free\ndeb-src http://httpredir.debian.org/debian bullseye-backports main non-free" > /etc/apt/sources.list.d/backports.list && \
+RUN	printf "deb http://httpredir.debian.org/debian buster-backports main non-free\ndeb-src http://httpredir.debian.org/debian buster-backports main non-free" > /etc/apt/sources.list.d/backports.list && \
 	apt-get update -y && apt-get dist-upgrade -y && \
 	apt-get install --no-install-recommends --no-install-suggests -y apt-utils && \
 	apt-get install --no-install-recommends --no-install-suggests -y \
